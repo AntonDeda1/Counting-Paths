@@ -19,7 +19,8 @@ namespace CoordinatePaths
 
             try
             {
-
+                X = int.Parse(inputX);
+                Y = int.Parse(inputY);
                 if (X < 0 || X > 1000 || Y < 0 || Y > 1000)
                 {
                     Console.WriteLine("Value must be 0 to 1000");
@@ -32,10 +33,14 @@ namespace CoordinatePaths
                 Console.WriteLine("Invalid input");
                 return;
             }
-
+            var paths = GeneratePaths(X, Y);
             int pathCount = CalculatePaths(X, Y);
-
-            Console.WriteLine($"Number of paths: {pathCount}");
+            Console.WriteLine("Possible Routes:");
+            foreach (var path in paths)
+            {
+                Console.WriteLine(path);
+            }
+            Console.WriteLine($"Number of paths:{pathCount}");
 
         }
 
@@ -57,7 +62,7 @@ namespace CoordinatePaths
             return result;
         }
 
-        static void GeneratePaths(int X, int Y, int currentX, int currentY, string path, List<string> paths)
+        static void GeneratePathsRecursive(int X, int Y, int currentX, int currentY, string path, List<string> paths)
         {
             if (currentX == X && currentY == Y)
             {
@@ -67,13 +72,22 @@ namespace CoordinatePaths
 
             if (currentX < X && !(path.EndsWith("EEE")))
             {
-                GeneratePaths(X, Y, currentX + 1, currentY, path + "E", paths);
+                GeneratePathsRecursive(X, Y, currentX + 1, currentY, path + "E", paths);
             }
 
             if (currentY < Y && !(path.EndsWith("NNN")))
             {
-                GeneratePaths(X, Y, currentX, currentY + 1, path + "N", paths);
+                GeneratePathsRecursive(X, Y, currentX, currentY + 1, path + "N", paths);
             }
+        }
+
+        static List<string> GeneratePaths(int X, int Y)
+        {
+            List<string> paths = new List<string>();
+
+            GeneratePathsRecursive(X, Y, 0, 0, "", paths);
+
+            return paths;
         }
 
     }
