@@ -57,5 +57,24 @@ namespace CoordinatePaths
             return result;
         }
 
+        static void GeneratePaths(int X, int Y, int currentX, int currentY, string path, List<string> paths)
+        {
+            if (currentX == X && currentY == Y)
+            {
+                paths.Add(path);
+                return;
+            }
+
+            if (currentX < X && !(path.EndsWith("EEE")))
+            {
+                GeneratePaths(X, Y, currentX + 1, currentY, path + "E", paths);
+            }
+
+            if (currentY < Y && !(path.EndsWith("NNN")))
+            {
+                GeneratePaths(X, Y, currentX, currentY + 1, path + "N", paths);
+            }
+        }
+
     }
 }
