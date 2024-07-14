@@ -7,7 +7,7 @@ namespace CoordinatePaths
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter X:");
+            Console.Write("Enter X: ");
             string inputX = Console.ReadLine();
 
             Console.Write("Enter Y: ");
@@ -65,11 +65,11 @@ namespace CoordinatePaths
         static List<string> GeneratePaths(int X, int Y)
         {
             List<string> paths = new List<string>();
-            GeneratePathsRecursive(X, Y, 0, 0, "", paths);
+            GeneratePathsRecursive(X, Y, 0, 0, "", 0, 0, paths);
             return paths;
         }
 
-        static void GeneratePathsRecursive(int X, int Y, int currentX, int currentY, string path, List<string> paths)
+        static void GeneratePathsRecursive(int X, int Y, int currentX, int currentY, string path, int consecutiveE, int consecutiveN, List<string> paths)
         {
             if (currentX == X && currentY == Y)
             {
@@ -77,14 +77,14 @@ namespace CoordinatePaths
                 return;
             }
 
-            if (currentX < X && !(path.EndsWith("EEE")) && !path.EndsWith("NNN"))
+            if (currentX < X && consecutiveE < 2)
             {
-                GeneratePathsRecursive(X, Y, currentX + 1, currentY, path + "E", paths);
+                GeneratePathsRecursive(X, Y, currentX + 1, currentY, path + "E", consecutiveE + 1, 0, paths);
             }
 
-            if (currentY < Y && !(path.EndsWith("NNN")) && !path.EndsWith("EEE"))
+            if (currentY < Y && consecutiveN < 2)
             {
-                GeneratePathsRecursive(X, Y, currentX, currentY + 1, path + "N", paths);
+                GeneratePathsRecursive(X, Y, currentX, currentY + 1, path + "N", 0, consecutiveN + 1, paths);
             }
         }
     }
